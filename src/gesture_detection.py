@@ -3,6 +3,7 @@ import pandas as pd
 import tensorflow as tf
 import modi
 from gathering_data import DataGathering
+from IPython.display import clear_output
 import time
 
 class DetectGesture(object):
@@ -24,7 +25,10 @@ class DetectGesture(object):
         self.SAMPLES_PER_GESTURE = 25
 
 
-    def training_model(self):
+    def training_model(self, modelname):
+        # Set model path
+        modelpath = "../model/" + modelname + ".h5"
+
         print(f"TensorFlow version = {tf.__version__}\n")
         # Set a fixed random seed value, for reproducibility, this will allow us to get
         # the same random numbers each time the notebook is run
@@ -130,7 +134,8 @@ class DetectGesture(object):
         model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
         #history = model.fit(inputs_train, outputs_train, epochs=5, batch_size=1, validation_data=(inputs_validate, outputs_validate)
         history = model.fit(inputs_train, outputs_train, epochs=5, batch_size=1)
-        model.save('../model/model_car_acc_1.h5')
+        #model.save('../model/model_car_acc_1.h5')
+        model.save(modelpath)
 
     def predict(self, gyro, btn):
         # bundle = modi.MODI(3)
@@ -170,8 +175,9 @@ class DetectGesture(object):
         inputs.append(tensor)
         inputs = np.array(inputs)
         preds = model.predict(inputs)
-        print(preds)
-        print('3D Gesture Prediction = ', GESTURES[np.argmax(preds[0])])
+        #print(preds)
+        clear_output(wait=True)
+        print('예측 결과 = ', GESTURES[np.argmax(preds[0])])
         pred = GESTURES[np.argmax(preds[0])]
         return pred
 
@@ -194,7 +200,7 @@ def normalize(df):
 
 def main():
     dg = DetectGesture()
-    dg.training_model()
+    dg.training_model('model1')
 
 
 if __name__ == "__main__":
