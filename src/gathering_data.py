@@ -25,16 +25,16 @@ class DataGathering(object):
         while True:
             time.sleep(0.01)
 
-            self.aX = gyro.get_acceleration_x()
-            self.aY = gyro.get_acceleration_y()
-            self.aZ = gyro.get_acceleration_z()
-            self.gX = gyro.get_angular_vel_x()
-            self.gY = gyro.get_angular_vel_y()
-            self.gZ = gyro.get_angular_vel_z()
-            self.roll = gyro.get_roll()
-            self.pitch = gyro.get_pitch()
-            self.yaw = gyro.get_yaw()
-            self.vi = gyro.get_vibration()
+            self.aX = gyro.acceleration_x
+            self.aY = gyro.acceleration_y
+            self.aZ = gyro.acceleration_z
+            self.gX = gyro.angular_vel_x
+            self.gY = gyro.angular_vel_y
+            self.gZ = gyro.angular_vel_z
+            self.roll = gyro.roll
+            self.pitch = gyro.pitch
+            self.yaw = gyro.yaw
+            self.vi = gyro.vibration
             self.l.append((self.aX,self.aY,self.aZ,self.gX,self.gY,self.gZ,self.roll,self.pitch,self.yaw,self.vi))
             # print('aX, aY, aZ, gX, gY, gZ, roll, pitch, yaw, vi', self.aX, self.aY, self.aZ,
             #                                                     self.gX, self.gY, self.gZ,
@@ -46,7 +46,7 @@ class DataGathering(object):
             clear_output(wait=True)
 
 
-            if btn.get_clicked():
+            if btn.clicked:
                 self.X = np.array(self.l)[5:-5]
                 if len(self.X) > 50:
                     self.X_tr = self.X[::2][:25]
@@ -71,7 +71,7 @@ class DataGathering(object):
     def gathering_motion(self, btn, gyro, filename):
         while True:
             # exit trigger
-            if btn.get_double_clicked():
+            if btn.double_clicked:
                 clear_output(wait=True)
                 print("데이터 수집을 종료합니다.")
                 time.sleep(0.1)
@@ -88,7 +88,7 @@ class DataGathering(object):
             print(filename, "데이터의 ", str(record_index + 1), "번째 데이터 수집을 시작하려면 버튼을 클릭하세요. ",
                                          "데이터 수집을 종료하려면 버튼을 더블클릭하세요.", end='\r')
             time.sleep(0.1)
-            if btn.get_clicked():
+            if btn.clicked:
                 clear_output(wait=True)
                 print(str(record_index+1), ' 번째 데이터 수집을 시작합니다.')
                 print('ready')
@@ -107,16 +107,16 @@ class DataGathering(object):
                 while True:
                     time.sleep(0.01)
 
-                    self.aX = gyro.get_acceleration_x()
-                    self.aY = gyro.get_acceleration_y()
-                    self.aZ = gyro.get_acceleration_z()
-                    self.gX = gyro.get_angular_vel_x()
-                    self.gY = gyro.get_angular_vel_y()
-                    self.gZ = gyro.get_angular_vel_z()
-                    self.roll = gyro.get_roll()
-                    self.pitch = gyro.get_pitch()
-                    self.yaw = gyro.get_yaw()
-                    self.vi = gyro.get_vibration()
+                    self.aX = gyro.acceleration_x
+                    self.aY = gyro.acceleration_y
+                    self.aZ = gyro.acceleration_z
+                    self.gX = gyro.angular_vel_x
+                    self.gY = gyro.angular_vel_y
+                    self.gZ = gyro.angular_vel_z
+                    self.roll = gyro.roll
+                    self.pitch = gyro.pitch
+                    self.yaw = gyro.yaw
+                    self.vi = gyro.vibration
                     self.l.append((self.aX,self.aY,self.aZ,self.gX,self.gY,self.gZ,self.roll,self.pitch,self.yaw,self.vi))
                     print(str(record_index+1), " 번째 데이터 수집 중. 수집을 종료하려면 버튼을 누르세요.")
                     print('현재 자이로 센서 데이터', self.aX, self.aY, self.aZ, self.gX, self.gY, self.gZ,
@@ -124,7 +124,7 @@ class DataGathering(object):
                     clear_output(wait=True)
 
 
-                    if btn.get_clicked():
+                    if btn.clicked:
                         self.X = np.array(self.l)[5:-5]
                         #print(self.X)
                         if len(self.X) > 50:
@@ -148,13 +148,7 @@ class DataGathering(object):
                         print(str(record_index+1), '번째 데이터가 저장되었습니다.')
                         time.sleep(1)
                         clear_output(wait=True)
-
                         break
-
-
-
-
-
 
 
 def main():

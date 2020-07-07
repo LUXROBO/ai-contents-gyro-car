@@ -12,46 +12,41 @@ def main():
 
     while True:
         time.sleep(0.1)
-        if btn.get_double_clicked():
+        if btn.double_clicked:
             print("start!")
-            #mot.set_speed(25, -25)
+            #mot.speed = 25, -25
             time.sleep(0.1)
             while True:
 
 
-                if btn.get_clicked():
+                if btn.clicked:
                     pred = dg.predict(gyro, btn)
                     time.sleep(0.1)
                     print("prediction : ", pred)
                     # 사용자 코드 영역
                     # =======================================================
                     if pred == 'back':
-                        #mot.set_speed(-23,23)
+                        #mot.speed = -23,23
                         time.sleep(0.1)
                         print('car : back!')
                     elif pred == 'go':
-                        #mot.set_speed(23, -23)
+                        #mot.speed = 23, -23
                         time.sleep(0.1)
                         print('car : go!')
                     elif pred == 'left':
-                        #mot.set_speed(23, 23)
+                        #mot.speed = 23, 23
                         time.sleep(0.1)
                         print('car : left!')
                     elif pred == 'right':
-                        #mot.set_speed(-23, -23)
+                        #mot.speed = -23, -23
                         time.sleep(0.1)
                         print('car : right!')
-
-
-
-
                 #=======================================================
 
-
                 time.sleep(0.1)
-                if btn.get_double_clicked():
+                if btn.double_clicked:
                     print("stop!")
-                    mot.set_speed(0, 0)
+                    mot.speed = 0, 0
                     time.sleep(0.1)
                     break
 
