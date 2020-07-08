@@ -25,7 +25,8 @@ class DetectGesture(object):
         self.SAMPLES_PER_GESTURE = 25
 
 
-    def training_model(self, modelname):
+    def training_model(self):
+        modelname = "model"
         # Set model path
         modelpath = "../model/" + modelname + ".h5"
 
@@ -159,7 +160,7 @@ class DetectGesture(object):
 
 
 
-        model = tf.keras.models.load_model('../model/model_car_acc_1.h5')
+        model = tf.keras.models.load_model('../model/model.h5')
         df = normalize(df)
 
         tensor = []
