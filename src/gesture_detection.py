@@ -31,11 +31,14 @@ class DetectGesture(object):
         modelpath = "../model/" + modelname + ".h5"
 
         print(f"TensorFlow version = {tf.__version__}\n")
+        ver = str(tf.__version__)
         # Set a fixed random seed value, for reproducibility, this will allow us to get
         # the same random numbers each time the notebook is run
         np.random.seed(self.SEED)
-        #tf.random.set_seed(self.SEED) # for tf 2.0
-        tf.set_random_seed(self.SEED) # for tf 1.14.0
+        if ver == '2.0.0':
+            tf.random.set_seed(self.SEED) # for tf 2.0
+        elif ver == '1.14.0':
+            tf.set_random_seed(self.SEED) # for tf 1.14.0
         NUM_GESTURES = len(self.GESTURES)
 
         # create a one-hot encoded matrix that is used in the output
