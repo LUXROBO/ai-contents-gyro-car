@@ -3,7 +3,7 @@ import pandas as pd
 import tensorflow as tf
 import modi
 from gathering_data import DataGathering
-from IPython.display import clear_output,Markdown
+from IPython.display import clear_output
 import time
 
 class DetectGesture(object):
@@ -30,7 +30,7 @@ class DetectGesture(object):
         # Set model path
         modelpath = "../model/" + modelname + ".h5"
 
-        print(f"TensorFlow version = {tf.__version__}\n")
+        #print(f"TensorFlow version = {tf.__version__}\n")
         ver = str(tf.__version__)
         # Set a fixed random seed value, for reproducibility, this will allow us to get
         # the same random numbers each time the notebook is run
@@ -55,8 +55,9 @@ class DetectGesture(object):
             output = ONE_HOT_ENCODED_GESTURES[gesture_index]
             
             df = pd.read_csv("../data/" + gesture + ".csv")
-            Markdown(f'<strong>{gesture} 의 데이터를 불러오는 중입니다.</strong><br/>{}')
-            print( gesture + " 의 데이터를 불러오는 중입니다.")
+            print("[데이터 가져오기]")
+            print( gesture + " 의 데이터를 불러옵니다.")
+            time.sleep(2)
 
             # calculate the number of gesture recordings in the file
             num_recordings = int(df.shape[0] / self.SAMPLES_PER_GESTURE)
@@ -78,13 +79,16 @@ class DetectGesture(object):
                     ]
                     inputs.append(tensor)
                     outputs.append(output)
-            time.sleep(3)
+            time.sleep(1)
             clear_output(wait=True)
         
         # convert the list to numpy array
         inputs = np.array(inputs)
         outputs = np.array(outputs)
-        print("Data set parsing and preparation complete.")
+        #print("Data set parsing and preparation complete.")
+        print("[데이터 준비]")
+        print("모델 학습을 위한 데이터 준비가 완료되었습니다.")
+        time.sleep(2)
 
         # Randomize the order of the inputs, so they can be evenly distributed for training, testing, and validation
         # https://stackoverflow.com/a/37710486/2020087
@@ -113,6 +117,11 @@ class DetectGesture(object):
         print('inputs_train_shape: ', inputs_train.shape)
         print('inputs_test: ', len(inputs_test))
         print('inputs_validate: ', len(inputs_validate))
+        time.sleep(2)
+        clear_output(wait=True)
+        print("[학습 시작]")
+        print("학습을 시작합니다.")
+        time.sleep(1)
 
 
         # build the model and train it
@@ -145,6 +154,11 @@ class DetectGesture(object):
         history = model.fit(inputs_train, outputs_train, epochs=5, batch_size=1)
         #model.save('../model/model_car_acc_1.h5')
         model.save(modelpath)
+        time.sleep(2)
+        clear_output(wait=True)
+        print("[학습 완료]")
+        print("학습 및 모델 생성이 완료되었습니다.")
+        
 
     def predict(self, gyro, btn):
         # bundle = modi.MODI(3)
