@@ -2,8 +2,10 @@ import modi
 import time
 import numpy as np
 import pandas as pd
-from IPython.display import clear_output
+from pandas import DataFrame
+from IPython.display import clear_output,display
 import sys
+import os
 
 class DataGathering(object):
 
@@ -149,6 +151,23 @@ class DataGathering(object):
                         time.sleep(1)
                         clear_output(wait=True)
                         break
+    
+    # print number of collected data
+    def check_data(self):
+        frame = DataFrame(columns = ["파일 이름", "수집된 데이터 개수"])
+        path = "../data"
+        #os.remove(path+"/.DS_Store")
+        file_list = os.listdir(path)
+
+        for i in range(len(file_list)):
+            df = pd.read_csv("../data/" + file_list[i])
+            record_index = int((df.shape[0]+1) / 25)
+            #print("파일명 : {} 수집된 데이터 개수 : {} 개".format(file_list[i],record_index))
+            frame.loc[i+1] = [file_list[i],record_index]
+            
+        display(frame)                           
+            
+        
 
 
 def main():

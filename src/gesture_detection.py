@@ -3,7 +3,7 @@ import pandas as pd
 import tensorflow as tf
 import modi
 from gathering_data import DataGathering
-from IPython.display import clear_output
+from IPython.display import clear_output,Markdown
 import time
 
 class DetectGesture(object):
@@ -50,11 +50,13 @@ class DetectGesture(object):
         # read each csv file and push an input and output
         for gesture_index in range(NUM_GESTURES):
             gesture = self.GESTURES[gesture_index]
-            print(f"Processing index {gesture_index} for gesture '{gesture}'.")
+            #print(f"Processing index {gesture_index} for gesture '{gesture}'.")
             
             output = ONE_HOT_ENCODED_GESTURES[gesture_index]
             
             df = pd.read_csv("../data/" + gesture + ".csv")
+            Markdown(f'<strong>{gesture} 의 데이터를 불러오는 중입니다.</strong><br/>{}')
+            print( gesture + " 의 데이터를 불러오는 중입니다.")
 
             # calculate the number of gesture recordings in the file
             num_recordings = int(df.shape[0] / self.SAMPLES_PER_GESTURE)
@@ -76,6 +78,8 @@ class DetectGesture(object):
                     ]
                     inputs.append(tensor)
                     outputs.append(output)
+            time.sleep(3)
+            clear_output(wait=True)
         
         # convert the list to numpy array
         inputs = np.array(inputs)
