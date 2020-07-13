@@ -50,12 +50,13 @@ class DetectGesture(object):
         # read each csv file and push an input and output
         for gesture_index in range(NUM_GESTURES):
             gesture = self.GESTURES[gesture_index]
+            num = gesture_index + 1
             #print(f"Processing index {gesture_index} for gesture '{gesture}'.")
             
             output = ONE_HOT_ENCODED_GESTURES[gesture_index]
             
             df = pd.read_csv("../data/" + gesture + ".csv")
-            print("[데이터 가져오기]")
+            print(f"[데이터 가져오기] ( {num} / {NUM_GESTURES} )")
             print( gesture + " 의 데이터를 불러옵니다.")
             time.sleep(2)
 
