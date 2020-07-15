@@ -136,7 +136,11 @@ class DataGathering(object):
                                                      columns=['aX', 'aY', 'aZ', 'gX', 'gY', 'gZ', 'roll', 'pitch', 'yaw', 'vi'])
 
                         else:
-                            print('데이터 길이가 너무 짧습니다. 다시 그려보세요.')
+                            print('데이터 길이가 너무 짧습니다. 데이터가 저장되지 않았습니다.')
+                            time.sleep(1)
+                            print('다시 그려보세요.')
+                            time.sleep(1)
+                            break
                             #raise ValueError('data is too short')
                         # 전처리 필요
                         # 최대 길이에 맞출 경우, 1 처럼 모션 시간이 짧은 데이터는 결측값이 존재하게 됨. 이부분을 평균값으로 처리할지, 이전값으로 처리할지에 대한 부분
@@ -146,7 +150,15 @@ class DataGathering(object):
 
                         with open(filepath, 'a') as f:
                             f.write('\n')
+
+                        if record_index == 0:
+                            print("include dataframe key")
+
+                        else:
+                            print("not include dataframe key")
+
                         self.X_df.to_csv(filepath, mode='a', header=False)
+                        print(record_index)
                         print(str(record_index+1), '번째 데이터가 저장되었습니다.')
                         time.sleep(1)
                         clear_output(wait=True)

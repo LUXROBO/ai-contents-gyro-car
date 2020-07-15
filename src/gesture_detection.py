@@ -155,8 +155,7 @@ class DetectGesture(object):
         history = model.fit(inputs_train, outputs_train, epochs=5, batch_size=1)
         #model.save('../model/model_car_acc_1.h5')
         model.save(modelpath)
-        time.sleep(2)
-        clear_output(wait=True)
+        time.sleep(1)
         print("[학습 완료]")
         print("학습 및 모델 생성이 완료되었습니다.")
         
