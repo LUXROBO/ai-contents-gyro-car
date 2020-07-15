@@ -152,13 +152,13 @@ class DataGathering(object):
                             f.write('\n')
 
                         if record_index == 0:
-                            print("include dataframe key")
+                            self.X_df.to_csv(filepath, mode='a', header=True)
 
                         else:
-                            print("not include dataframe key")
+                            self.X_df.to_csv(filepath, mode='a', header=False)
 
-                        self.X_df.to_csv(filepath, mode='a', header=False)
-                        print(record_index)
+                        #self.X_df.to_csv(filepath, mode='a', header=False)
+                        #print(record_index)
                         print(str(record_index+1), '번째 데이터가 저장되었습니다.')
                         time.sleep(1)
                         clear_output(wait=True)
