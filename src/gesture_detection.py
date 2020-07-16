@@ -66,7 +66,7 @@ class DetectGesture(object):
             print(df.shape)
             print(f"\tThere are {num_recordings} recordings of the {gesture} gesture.")
 
-            df = normalize(df)
+            #df = normalize(df)
 
             for i in range(num_recordings):
                 tensor = []
@@ -74,7 +74,7 @@ class DetectGesture(object):
                     index = i * self.SAMPLES_PER_GESTURE + j
                     tensor += [
                         (df['aX'][index]), (df['aY'][index]), (df['aZ'][index]),
-                        (df['gX'][index]), (df['gY'][index]), (df['gZ'][index]),
+                        #(df['gX'][index]), (df['gY'][index]), (df['gZ'][index]),
                         (df['roll'][index]), (df['pitch'][index]), (df['yaw'][index])
                         #(df['vi'][index])
                     ]
@@ -182,7 +182,7 @@ class DetectGesture(object):
 
 
         model = tf.keras.models.load_model('../model/model.h5')
-        df = normalize(df)
+        #df = normalize(df)
 
         tensor = []
         inputs = []
@@ -191,7 +191,7 @@ class DetectGesture(object):
             index = j
             tensor += [
                 (df['aX'][index]), (df['aY'][index]), (df['aZ'][index]),
-                (df['gX'][index]), (df['gY'][index]), (df['gZ'][index]),
+                #(df['gX'][index]), (df['gY'][index]), (df['gZ'][index]),
                 (df['roll'][index]), (df['pitch'][index]), (df['yaw'][index])
                 #(df['vi'][index])
             ]

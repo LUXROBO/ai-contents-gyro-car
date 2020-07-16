@@ -4,8 +4,10 @@ import numpy as np
 import pandas as pd
 from pandas import DataFrame
 from IPython.display import clear_output,display
+from matplotlib import pyplot as plt
 import sys
 import os
+from sklearn.preprocessing import Normalizer,MaxAbsScaler
 
 class DataGathering(object):
 
@@ -24,47 +26,60 @@ class DataGathering(object):
         self.l = []
         self.X = None
         self.X_df = None
+        self.X_sc = None
         while True:
             time.sleep(0.01)
 
             self.aX = gyro.acceleration_x
             self.aY = gyro.acceleration_y
             self.aZ = gyro.acceleration_z
-            self.gX = gyro.angular_vel_x
-            self.gY = gyro.angular_vel_y
-            self.gZ = gyro.angular_vel_z
+            # self.gX = gyro.angular_vel_x
+            # self.gY = gyro.angular_vel_y
+            # self.gZ = gyro.angular_vel_z
             self.roll = gyro.roll
             self.pitch = gyro.pitch
             self.yaw = gyro.yaw
-            self.vi = gyro.vibration
-            self.l.append((self.aX,self.aY,self.aZ,self.gX,self.gY,self.gZ,self.roll,self.pitch,self.yaw,self.vi))
+            # self.vi = gyro.vibration
+            self.l.append((self.aX,self.aY,self.aZ,self.roll,self.pitch,self.yaw)) # self.gX,self.gY,self.gZ, ,self.vi
             # print('aX, aY, aZ, gX, gY, gZ, roll, pitch, yaw, vi', self.aX, self.aY, self.aZ,
             #                                                     self.gX, self.gY, self.gZ,
             #                                                     self.roll, self.pitch, self.yaw,
             #                                                     self.vi)
             print("데이터 수집 중. 수집을 종료하려면 버튼을 누르세요.")
-            print('현재 자이로 센서 데이터', self.aX, self.aY, self.aZ, self.gX, self.gY, self.gZ,
-                                                                  self.roll, self.pitch, self.yaw, self.vi)
+            print('현재 자이로 센서 데이터', self.aX, self.aY, self.aZ, #self.gX, self.gY, self.gZ,
+                                                                  self.roll, self.pitch, self.yaw) # , self.vi
             clear_output(wait=True)
 
 
             if btn.clicked:
                 self.X = np.array(self.l)[5:-5]
                 if len(self.X) > 50:
-                    self.X_tr = self.X[::2][:25]
+                    itr = len(self.X) // 25
+                    self.X_tr = self.X[::itr][:25]
 
                     self.X_df = pd.DataFrame(self.X_tr,
-                                             columns=['aX', 'aY', 'aZ', 'gX', 'gY', 'gZ', 'roll', 'pitch', 'yaw', 'vi'])
+                                             columns=['aX', 'aY', 'aZ', 'roll', 'pitch', 'yaw'])
+                    self.X_df.plot()
+                    plt.show()
+
+                    scaler = MaxAbsScaler()
+                    scaler.fit(self.X_df)
+                    self.X_sc = DataFrame(scaler.transform(self.X_df),
+                                          columns=['aX', 'aY', 'aZ', 'roll', 'pitch', 'yaw'])
+                    time.sleep(1)
 
                 else:
-                    print('data is too short')
+                    print('데이터 길이가 너무 짧습니다. 데이터가 저장되지 않았습니다.')
+                    time.sleep(1)
+                    print('조금만 천천히 그려보세요.')
+                    time.sleep(1)
                     #raise ValueError('data is too short')
                 # 전처리 필요
                 # 최대 길이에 맞출 경우, 1 처럼 모션 시간이 짧은 데이터는 결측값이 존재하게 됨. 이부분을 평균값으로 처리할지, 이전값으로 처리할지에 대한 부분
 
                 # self.X_df = pd.DataFrame(self.X_tr, columns=['aX', 'aY', 'aZ', 'gX', 'gY', 'gZ', 'roll', 'pitch', 'yaw', 'vi'])
                 break
-        return self.X_df
+        return self.X_sc
 
 
     def normalization():
@@ -94,13 +109,13 @@ class DataGathering(object):
                 clear_output(wait=True)
                 print(str(record_index+1), ' 번째 데이터 수집을 시작합니다.')
                 print('ready')
-                time.sleep(1)
+                time.sleep(0.5)
                 print('3')
-                time.sleep(1)
+                time.sleep(0.5)
                 print('2')
-                time.sleep(1)
+                time.sleep(0.5)
                 print('1')
-                time.sleep(1)
+                time.sleep(0.5)
                 print('start!')
                 clear_output(wait=True)
                 self.l = []
@@ -112,33 +127,52 @@ class DataGathering(object):
                     self.aX = gyro.acceleration_x
                     self.aY = gyro.acceleration_y
                     self.aZ = gyro.acceleration_z
-                    self.gX = gyro.angular_vel_x
-                    self.gY = gyro.angular_vel_y
-                    self.gZ = gyro.angular_vel_z
+                    # self.gX = gyro.angular_vel_x
+                    # self.gY = gyro.angular_vel_y
+                    # self.gZ = gyro.angular_vel_z
                     self.roll = gyro.roll
                     self.pitch = gyro.pitch
                     self.yaw = gyro.yaw
-                    self.vi = gyro.vibration
-                    self.l.append((self.aX,self.aY,self.aZ,self.gX,self.gY,self.gZ,self.roll,self.pitch,self.yaw,self.vi))
+                    # self.vi = gyro.vibration
+                    self.l.append((self.aX,self.aY,self.aZ,self.roll,self.pitch,self.yaw)) # self.gX,self.gY,self.gZ,,self.vi
                     print(str(record_index+1), " 번째 데이터 수집 중. 수집을 종료하려면 버튼을 누르세요.")
-                    print('현재 자이로 센서 데이터', self.aX, self.aY, self.aZ, self.gX, self.gY, self.gZ,
-                                                                          self.roll, self.pitch, self.yaw, self.vi)
+                    print('현재 자이로 센서 데이터', self.aX, self.aY, self.aZ, #self.gX, self.gY, self.gZ,
+                                                                          self.roll, self.pitch, self.yaw) # , self.vi
                     clear_output(wait=True)
 
 
                     if btn.clicked:
+                        dg = DataFrame(self.l)
+                        #dg.plot()
+                        #plt.show()
+                        #time.sleep(3)
+                        #Normalizer().fit(self.l)
+                        #dg_n = DataFrame(Normalizer().transform(self.l))
+                        #dg_n.plot()
+                        #plt.show()
+                        #time.sleep(3)
                         self.X = np.array(self.l)[5:-5]
                         #print(self.X)
                         if len(self.X) > 50:
-                            self.X_tr = self.X[::2][:25]
+                            itr = len(self.X) // 25
+                            self.X_tr = self.X[::itr][:25]
 
                             self.X_df = pd.DataFrame(self.X_tr,
-                                                     columns=['aX', 'aY', 'aZ', 'gX', 'gY', 'gZ', 'roll', 'pitch', 'yaw', 'vi'])
+                                                     #columns=['aX', 'aY', 'aZ', 'gX', 'gY', 'gZ', 'roll', 'pitch', 'yaw', 'vi'])
+                                                     columns=['aX', 'aY', 'aZ', 'roll', 'pitch', 'yaw'])
+                            self.X_df.plot()
+                            plt.show()
+                            scaler = MaxAbsScaler()
+                            scaler.fit(self.X_df)
+                            self.X_sc = DataFrame(scaler.transform(self.X_df), columns=['aX', 'aY', 'aZ', 'roll', 'pitch', 'yaw'])
+                            #self.X_sc.plot()
+                            #plt.show()
+                            time.sleep(1)
 
                         else:
                             print('데이터 길이가 너무 짧습니다. 데이터가 저장되지 않았습니다.')
                             time.sleep(1)
-                            print('다시 그려보세요.')
+                            print('조금만 천천히 그려보세요.')
                             time.sleep(1)
                             break
                             #raise ValueError('data is too short')
@@ -152,10 +186,10 @@ class DataGathering(object):
                             f.write('\n')
 
                         if record_index == 0:
-                            self.X_df.to_csv(filepath, mode='a', header=True)
+                            self.X_sc.to_csv(filepath, mode='a', header=True)
 
                         else:
-                            self.X_df.to_csv(filepath, mode='a', header=False)
+                            self.X_sc.to_csv(filepath, mode='a', header=False)
 
                         #self.X_df.to_csv(filepath, mode='a', header=False)
                         #print(record_index)
