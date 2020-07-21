@@ -118,6 +118,7 @@ class DetectGesture(object):
         print('inputs_train_shape: ', inputs_train.shape)
         print('inputs_test: ', len(inputs_test))
         print('inputs_validate: ', len(inputs_validate))
+        print('test_shape:', inputs_test.shape)
         time.sleep(2)
         clear_output(wait=True)
         print("[학습 시작]")
@@ -127,6 +128,7 @@ class DetectGesture(object):
 
         # build the model and train it
         model = tf.keras.Sequential()
+        model.add(tf.keras.Input(shape = inputs_train.shape[1]))
         # model.add(tf.keras.layers.LSTM(150, activation='relu'))
         #model.add(tf.keras.layers.Dropout(rate=.1))
         #model.add(tf.keras.layers.Dense(150, activation='relu'))
@@ -153,6 +155,8 @@ class DetectGesture(object):
         model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
         #history = model.fit(inputs_train, outputs_train, epochs=5, batch_size=1, validation_data=(inputs_validate, outputs_validate)
         history = model.fit(inputs_train, outputs_train, epochs=5, batch_size=1)
+        loss_acc = model.evaluate(inputs_test, outputs_test)
+        print(loss_acc)
         #model.save('../model/model_car_acc_1.h5')
         model.save(modelpath)
         time.sleep(1)
