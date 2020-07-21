@@ -195,7 +195,7 @@ class DataGathering(object):
                         #print(record_index)
                         print(str(record_index+1), '번째 데이터가 저장되었습니다.')
                         time.sleep(1)
-                        clear_output(wait=True)
+#                         clear_output(wait=True)
                         break
     
     # print number of collected data
@@ -204,6 +204,7 @@ class DataGathering(object):
         path = "../data"
         #os.remove(path+"/.DS_Store")
         file_list = os.listdir(path)
+        print(file_list)
 
         for i in range(len(file_list)):
             df = pd.read_csv("../data/" + file_list[i], engine='python' )
