@@ -206,7 +206,7 @@ class DataGathering(object):
         file_list = os.listdir(path)
 
         for i in range(len(file_list)):
-            df = pd.read_csv("../data/" + file_list[i])
+            df = pd.read_csv("../data/" + file_list[i], engine='python' )
             record_index = int((df.shape[0]+1) / 25)
             #print("파일명 : {} 수집된 데이터 개수 : {} 개".format(file_list[i],record_index))
             frame.loc[i+1] = [file_list[i],record_index]
