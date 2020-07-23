@@ -206,6 +206,7 @@ class DataGathering(object):
         try:
             os.removedirs(path+"/.ipynb_checkpoints")
         except:
+            pass
         file_list = os.listdir(path)
         print(file_list)
 
