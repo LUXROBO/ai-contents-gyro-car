@@ -203,7 +203,9 @@ class DataGathering(object):
         frame = DataFrame(columns = ["파일 이름", "수집된 데이터 개수"])
         path = "../data"
         #os.remove(path+"/.DS_Store")
-        os.remove(path+"/.ipynb_checkpoints")
+        try:
+            os.removedirs(path+"/.ipynb_checkpoints")
+        except:
         file_list = os.listdir(path)
         print(file_list)
 
