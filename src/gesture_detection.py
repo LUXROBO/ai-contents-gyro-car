@@ -154,20 +154,11 @@ class DetectGesture(object):
         #model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=[tf.keras.metrics.CategoricalAccuracy()])
         model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
         #history = model.fit(inputs_train, outputs_train, epochs=5, batch_size=1, validation_data=(inputs_validate, outputs_validate)
-        
-        
-#         history = model.fit(inputs_train, outputs_train, epochs=5, batch_size=1)
-#         loss_acc = model.evaluate(inputs_test, outputs_test)
-#         print(loss_acc)
-        
-        
-        import modi_cloud
-        modi_model = modi_cloud.MODI_model(model)
-        modi_model = modi_model.fit(inputs_train, outputs_train)
-        loss_and_metrics = modi_model.evaluate(inputs_test, outputs_test)
-        
-        
-        modi_model.save(modelpath)
+        history = model.fit(inputs_train, outputs_train, epochs=5, batch_size=1)
+        loss_acc = model.evaluate(inputs_test, outputs_test)
+        print(loss_acc)
+        #model.save('../model/model_car_acc_1.h5')
+        model.save(modelpath)
         time.sleep(1)
         print("[학습 완료]")
         print("학습 및 모델 생성이 완료되었습니다.")
