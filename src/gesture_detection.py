@@ -163,8 +163,8 @@ class DetectGesture(object):
         
         import modi_cloud
         modi_model = modi_cloud.MODI_model(model)
-        modi_model = modi_model.fit(inputs_train, outputs_train)
-        loss_and_metrics = modi_model.evaluate(inputs_test, outputs_test)
+        modi_model = modi_model.fit(inputs_train, outputs_train, epochs=5, batch_size=1)
+#         loss_and_metrics = modi_model.evaluate(inputs_test, outputs_test)
         
         
         modi_model.save(modelpath)
