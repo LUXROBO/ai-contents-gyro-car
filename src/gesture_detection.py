@@ -167,7 +167,7 @@ class DetectGesture(object):
 #         loss_and_metrics = modi_model.evaluate(inputs_test, outputs_test)
         
         
-        modi_model.save(modelpath)
+#         modi_model.save(modelpath)
         time.sleep(1)
         print("[학습 완료]")
         print("학습 및 모델 생성이 완료되었습니다.")
