@@ -16,9 +16,9 @@ wav_path = '/home/pi/workspace/ai-contents-gyro-car/src/img/'
 class DataGathering(object):
     
     def play_beep(wavfile):
-    data, fs = sf.read(wav_path + wavfile, dtype="float32")
-    sd.play(data, fs)
-    sd.wait()
+        data, fs = sf.read(wav_path + wavfile, dtype="float32")
+        sd.play(data, fs)
+        sd.wait()
 
     def record_motion(self, btn, gyro):
         clear_output(wait=True)
