@@ -8,8 +8,17 @@ from matplotlib import pyplot as plt
 import sys
 import os
 from sklearn.preprocessing import Normalizer,MaxAbsScaler
+import sounddevice as sd
+import soundfile as sf
+
+wav_path = '/home/pi/workspace/ai-contents-gyro-car/src/img/'
 
 class DataGathering(object):
+    
+    def play_beep(wavfile):
+    data, fs = sf.read(wav_path + wavfile, dtype="float32")
+    sd.play(data, fs)
+    sd.wait()
 
     def record_motion(self, btn, gyro):
         clear_output(wait=True)
@@ -22,6 +31,7 @@ class DataGathering(object):
         time.sleep(1)
         print('1')
         time.sleep(1)
+        play_beep('sound02.wav')
         print('start!')
         self.l = []
         self.X = None
@@ -52,6 +62,7 @@ class DataGathering(object):
 
 
             if btn.clicked:
+                play_beep('sound04.wav')
                 self.X = np.array(self.l)[5:-5]
                 if len(self.X) > 50:
                     itr = len(self.X) // 25

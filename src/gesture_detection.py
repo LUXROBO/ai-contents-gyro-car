@@ -28,7 +28,7 @@ class DetectGesture(object):
     def training_model(self):
         modelname = "model"
         # Set model path
-        modelpath = "../model/" + modelname + ".h5"
+        modelpath = "/home/pi/workspace/ai-contents-gyro-car/model/" + modelname + ".h5"
 
         #print(f"TensorFlow version = {tf.__version__}\n")
         ver = str(tf.__version__)
@@ -185,7 +185,7 @@ class DetectGesture(object):
 
 
 
-        model = tf.keras.models.load_model('../model/model.h5')
+        model = tf.keras.models.load_model('/home/pi/workspace/ai-contents-gyro-car/model/model.h5')
         #df = normalize(df)
 
         tensor = []
