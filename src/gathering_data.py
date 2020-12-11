@@ -10,16 +10,17 @@ import os
 from sklearn.preprocessing import Normalizer,MaxAbsScaler
 import sounddevice as sd
 import soundfile as sf
+from multiprocessing import Process
 
 wav_path = '/home/pi/workspace/ai-contents-gyro-car/src/img/'
 
-class DataGathering(object):
-    
-    def play_beep(wavfile):
-        data, fs = sf.read(wav_path + wavfile, dtype="float32")
-        sd.play(data, fs)
-        sd.wait()
-
+def play_beep(wavfile):
+    data, fs = sf.read(wav_path + wavfile, dtype="float32")
+    sd.play(data, fs)
+    sd.wait()
+        
+class DataGathering:
+        
     def record_motion(self, btn, gyro):
         clear_output(wait=True)
         print('데이터 수집을 시작합니다.')
@@ -29,9 +30,16 @@ class DataGathering(object):
         time.sleep(1)
         print('2')
         time.sleep(1)
+        p = Process(target=play_beep, args=('sound02.wav',))
+        p.start()
         print('1')
         time.sleep(1)
-        play_beep('sound02.wav')
+#         p = Process(target=play_beep, args=('sound02.wav',))
+#         p.run()
+#         p.start()
+#         p.join()
+#         self._temp_pool.submit(self.play_beep('sound02.wav'))
+#         play_beep('sound02.wav')
         print('start!')
         self.l = []
         self.X = None
@@ -62,7 +70,10 @@ class DataGathering(object):
 
 
             if btn.clicked:
-                play_beep('sound04.wav')
+                p.join()
+                p = Process(target=play_beep, args=('sound04.wav',))
+                p.start()
+#                 play_beep('sound04.wav')
                 self.X = np.array(self.l)[5:-5]
                 if len(self.X) > 50:
                     itr = len(self.X) // 25
@@ -89,6 +100,7 @@ class DataGathering(object):
                 # 최대 길이에 맞출 경우, 1 처럼 모션 시간이 짧은 데이터는 결측값이 존재하게 됨. 이부분을 평균값으로 처리할지, 이전값으로 처리할지에 대한 부분
 
                 # self.X_df = pd.DataFrame(self.X_tr, columns=['aX', 'aY', 'aZ', 'gX', 'gY', 'gZ', 'roll', 'pitch', 'yaw', 'vi'])
+                p.join()
                 break
         return self.X_sc
 
