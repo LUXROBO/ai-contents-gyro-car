@@ -42,7 +42,7 @@ class DataGathering:
         self.X_df = None
         self.X_sc = None
         while True:
-            time.sleep(0.01)
+            time.sleep(0.1)
 
             self.aX = gyro.acceleration_x
             self.aY = gyro.acceleration_y
@@ -82,7 +82,7 @@ class DataGathering:
                         scaler.transform(self.X_df),
                         columns=['aX', 'aY', 'aZ', 'roll', 'pitch', 'yaw']
                     )
-                    time.sleep(0.01)
+                    time.sleep(0.1)
 
                 else:
                     print('데이터 길이가 너무 짧습니다. 데이터가 저장되지 않았습니다.')
@@ -141,7 +141,7 @@ class DataGathering:
                 self.X = None
                 self.X_df = None
                 while True:
-                    time.sleep(0.01)
+                    time.sleep(0.1)
 
                     self.aX = gyro.acceleration_x
                     self.aY = gyro.acceleration_y
